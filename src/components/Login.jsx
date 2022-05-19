@@ -1,137 +1,74 @@
-import { useState, useContext } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useNavigate } from "react-router-dom";
-import { AccountContext } from "./Account";
-import Pool from "../UserPool";
 
 import { signInWithGooglePopup, auth } from "../utils/firebase/firebase.utils";
 
+import * as api from "./apiService";
+
 export default function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const signInWithGoogle = async (e) => {
     e.preventDefault();
     await signInWithGooglePopup();
-    console.log(auth.currentUser);
-    //TODO: make call to the API to save user if it doesn't exists
-    navigate("/home");
-  };
+    console.log(auth.currentUser.displayName);
+    console.log(auth.currentUser.email);
+    console.log(auth.currentUser.uid);
 
-  const { authenticate } = useContext(AccountContext);
+    const requestObject = {
+      displayName: auth.currentUser.displayName,
+      email: auth.currentUser.email,
+      uid: auth.currentUser.uid,
+    };
 
-  const handleOnLogin = (e) => {
-    e.preventDefault();
-    authenticate(email, password)
-      .then((data) => {
-        console.log("Logged in!", data);
-        console.log("currentUser", Pool.getCurrentUser());
-        navigate("/home");
-      })
-      .catch((err) => {
-        console.error("Failed to login ", err);
-      });
-  };
+    try {
+      const { response } = await api.signUser(requestObject);
 
-  const handleOnSignUp = () => {
-    navigate("/signup");
+      console.log(response);
+
+      navigate("/home");
+    } catch (err) {
+      console.log(err);
+      //TODO: add toast
+    }
   };
 
   return (
     <>
-      <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
-          <div>
-            <img
-              className="mx-auto h-12 w-auto"
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-              alt="Workflow"
-            />
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              MotorTracker
-            </h2>
+      <div className="min-h-screen">
+        <div className="flex flex-col justify-center items-center py-12 space-y-8 min-h-screen sm:px-6 lg:px-8 lg:space-y-12">
+          <div className="w-full sm:mx-auto sm:max-w-md justify-center text-center text-3xl">
+            <span className="">MOTOR</span>
+            <span className="">TRACKER</span>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
-            <input type="hidden" name="remember" defaultValue="true" />
-            <div className="rounded-md shadow-sm -space-y-px">
-              <div>
-                <label htmlFor="email-address" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="email-address"
-                  name="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="email"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Email address"
-                />
-              </div>
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="current-password"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
+          <div
+            className="space-y-4 w-full sm:mx-auto sm:max-w-md"
+            aria-label="Sign in form"
+          >
+            <div className="py-8 px-4 bg-gray-100 border-t border-b border-gray-100 shadow sm:px-10 sm:rounded-lg sm:border-r sm:border-l">
+              <div className="flex flex-col justify-center animate-fade-in">
+                <button
+                  onClick={signInWithGoogle}
+                  className="inline-flex items-center border font-medium rounded relative text-base px-6 py-3 text-white border-pink-700 bg-pink-600 hover:bg-pink-700 hover:border-pink-800 shadow-sm justify-center border sm:py-10 sm:px-12 sm:text-2xl sm:font-semibold sm:rounded-lg"
                 >
-                  Remember me
-                </label>
-              </div>
-
-              <div className="text-sm">
-                <a
-                  href="#"
-                  onClick={handleOnSignUp}
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Sign up
-                </a>
+                  <span>Sign in with Google</span>
+                </button>
+                <div className="mt-6">
+                  <p className="mt-6 text-xs text-gray-500 prose prose-sm">
+                    By signing in, you agree to our{" "}
+                    <a href="/" className="text-blue-500 mr-1">
+                      Terms of Service
+                    </a>
+                    and
+                    <a href="/" className="text-blue-500 ml-1">
+                      Privacy Policy
+                    </a>
+                    .
+                  </p>
+                </div>
               </div>
             </div>
-
-            <div>
-              <button
-                onClick={signInWithGoogle}
-                type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <LockClosedIcon
-                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                    aria-hidden="true"
-                  />
-                </span>
-                Sign in
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     </>
