@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { Account } from './components/Account';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 
 ReactDOM.render(
-  <React.StrictMode>
     <Account>
       <App />
-    </Account>
-  </React.StrictMode>,
+    </Account>,
   document.getElementById('root')
 );
 

@@ -5,6 +5,8 @@ import {
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
+  setPersistence,
+  browserLocalPersistence
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -26,6 +28,11 @@ googleProvider.setCustomParameters({
 
 //singleton
 export const auth = getAuth();
+
+/* setPersistence(auth, browserLocalPersistence)
+    .then(() => {
+        return signInWithGooglePopup();
+    }) */
 
 export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
 
