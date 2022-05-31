@@ -1,11 +1,9 @@
-import { Fragment, useContext, useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 
 import Logo from "../logo.png";
-
-import { AccountContext } from "./Account";
 
 import { signOutUser } from "../utils/firebase/firebase.utils";
 
@@ -23,7 +21,6 @@ function classNames(...classes) {
 
 export default function Example() {
   const navigate = useNavigate();
-  const { logout } = useContext(AccountContext);
 
   const handleBackToLogin = async () => {
     await signOutUser();
