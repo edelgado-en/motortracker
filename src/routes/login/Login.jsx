@@ -1,9 +1,12 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useNavigate } from "react-router-dom";
 
-import { signInWithGooglePopup, auth } from "../utils/firebase/firebase.utils";
+import {
+  signInWithGooglePopup,
+  auth,
+} from "../../utils/firebase/firebase.utils";
 
-import * as api from "./apiService";
+import * as api from "../../components/apiService";
 
 export default function Login() {
   const navigate = useNavigate();

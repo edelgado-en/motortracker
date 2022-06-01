@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import HistoryTable from "./HistoryTable";
-import Dropdown from "./Dropdown";
+import Dropdown from "../../components/Dropdown";
 
-import * as api from "./apiService";
+import * as api from "../../components/apiService";
 
 function Home() {
   const [cars, setCars] = useState([]);

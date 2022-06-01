@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
-import Login from './components/Login';
-import Home from './components/Home';
+import Login from './routes/login/Login';
+import Home from './routes/dashboard/Home';
 import Nav from './components/Nav'
-import Cars from './components/Cars';
-import RegisterCar from './components/RegisterCar';
+import Cars from './routes/cars/Cars';
+import RegisterCar from './routes/registration/RegisterCar';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import {
   BrowserRouter,
@@ -18,6 +19,16 @@ import {
 import { onAuthStateChangedListener } from "./utils/firebase/firebase.utils";
 
 import { ToastContainer } from 'react-toastify';
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            retry: false,
+            staleTime: 30000,
+        }
+    }
+});
 
 const App = () => {
     
@@ -47,20 +58,22 @@ const App = () => {
 
   return (
       <>
-        <ToastContainer autoClose={2000}/>
-        <BrowserRouter>
-            <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/" element={<Nav />}>
-                    <Route element={<ProtectedRoute />}>
-                        <Route index element={<Home />} />
-                        <Route path="/cars" element={<Cars />} />
-                        <Route path="/registercar" element={<RegisterCar />} />
+        <QueryClientProvider client={queryClient}>
+            <ToastContainer autoClose={2000}/>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/" element={<Nav />}>
+                        <Route element={<ProtectedRoute />}>
+                            <Route index element={<Home />} />
+                            <Route path="/cars" element={<Cars />} />
+                            <Route path="/registercar" element={<RegisterCar />} />
+                        </Route>
                     </Route>
-                </Route>
 
-            </Routes>
-        </BrowserRouter>
+                </Routes>
+            </BrowserRouter>
+        </QueryClientProvider>
     </>
   );
 }
