@@ -1,44 +1,34 @@
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as api from "../../components/apiService";
+import { useMutation } from 'react-query';
 
 type FormValues = {
-    carName: string,
-    carPlate: string,
+    name: string,
+    plate: string,
     trackerSerialNumber: string
 }
 
 const RegisterCar = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>();
+    const { mutate, isLoading } = useMutation((data: FormValues) => api.registerCar(data))
 
-    const onSubmit = handleSubmit((data) => {
-        postCar(data);
+    const onSubmit = handleSubmit((data: FormValues) => {
+        mutate(data, {
+            onSuccess: () =>  {
+                toast.success('Car registered!');
+                
+                reset({
+                    name: '',
+                    plate: '',
+                    trackerSerialNumber: ''
+                })
+            },
+            onError: () => {
+                toast.error('Unable to registed car');
+            }
+        });
     })
-
-    const postCar = async (data: FormValues) => {
-        
-        const requestObject = {
-            name: data.carName,
-            plate: data.carPlate,
-            trackerSerialNumber: data.trackerSerialNumber,
-        };
-      
-        try {
-            await api.registerCar(requestObject);
-            
-            toast.success('Car registered!');
-
-            reset({
-                carName: '',
-                carPlate: '',
-                trackerSerialNumber: ''
-            })
-
-        } catch (err) {
-            toast.error('Unable to registed car');
-        } 
-    }
 
   return (
     <div className="mt-10 sm:mt-0" style={{ margin: "70px" }}>
@@ -67,12 +57,12 @@ const RegisterCar = () => {
                     </label>
                     <input
                       type="text"
-                      {...register('carName', { required: 'Car name is required' })}
+                      {...register('name', { required: 'Car name is required' })}
                       className={`mt-1 focus:ring-indigo-500 focus:border-indigo-500
                                  block w-full shadow-sm sm:text-sm
-                                  border-gray-300 rounded-md ${errors.carName && 'border-red-500'}`}
+                                  border-gray-300 rounded-md ${errors.name && 'border-red-500'}`}
                     />
-                    { errors.carName && <p className="text-red-500">{errors.carName.message}</p> }
+                    { errors.name && <p className="text-red-500">{errors.name.message}</p> }
                   </div>
 
                   <div className="col-span-6 sm:col-span-3">
@@ -84,12 +74,12 @@ const RegisterCar = () => {
                     </label>
                     <input
                       type="text"
-                      {...register('carPlate', { required: "Car plate is required" })}
+                      {...register('plate', { required: "Car plate is required" })}
                       className={`mt-1 focus:ring-indigo-500 focus:border-indigo-500
                                  block w-full shadow-sm sm:text-sm
-                                  border-gray-300 rounded-md ${errors.carPlate && 'border-red-500'} `}
+                                  border-gray-300 rounded-md ${errors.plate && 'border-red-500'} `}
                     />
-                    { errors.carPlate && <p className="text-red-500">{errors.carPlate.message}</p> }
+                    { errors.plate && <p className="text-red-500">{errors.plate.message}</p> }
                   </div>
 
                   <div className="col-span-6 sm:col-span-4">
@@ -113,6 +103,7 @@ const RegisterCar = () => {
               <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
                 <button
                   type="submit"
+                  disabled={isLoading}
                   className="inline-flex justify-center py-2 px-4 border
                              border-transparent shadow-sm text-sm font-medium rounded-md
                               text-white bg-indigo-600 hover:bg-indigo-700

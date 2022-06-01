@@ -1,5 +1,13 @@
+/* eslint-disable jsx-a11y/no-redundant-roles */
 import { ServerIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import { useGetCars } from "../../hooks/cars.hooks";
+
+type Car = {
+    id: number,
+    name: string,
+    plate: string,
+    trackerSerialNumber: string
+}
 
 const Cars = () => {
   const { data: cars } = useGetCars();
@@ -16,7 +24,7 @@ const Cars = () => {
       <div className="bg-white shadow overflow-hidden sm:rounded-md">
         <ul role="list" className="divide-y divide-gray-200">
           {cars &&
-            cars.data.map((car) => (
+            cars.data.map((car: Car) => (
               <li key={car.id}>
                 <a href="#" className="block hover:bg-gray-50">
                   <div className="px-4 py-4 flex items-center sm:px-6">
