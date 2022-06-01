@@ -1,33 +1,18 @@
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import * as api from "../../components/apiService";
-import { useMutation } from 'react-query';
+import { useRegisterCar } from "../../hooks/cars.hooks";
 
-type FormValues = {
+export type FormValues = {
     name: string,
     plate: string,
     trackerSerialNumber: string
 }
 
-const RegisterCar = () => {
+const RegisterCar: React.FC = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>();
-    const { mutate, isLoading } = useMutation((data: FormValues) => api.registerCar(data))
+    const { mutate, isLoading } = useRegisterCar(reset);
 
-    const onSubmit = handleSubmit((data: FormValues) => {
-        mutate(data, {
-            onSuccess: () =>  {
-                toast.success('Car registered!');
-                
-                reset({
-                    name: '',
-                    plate: '',
-                    trackerSerialNumber: ''
-                })
-            },
-            onError: () => {
-                toast.error('Unable to registed car');
-            }
-        });
+    const onSubmit = handleSubmit((data: any) => {
+        mutate(data)
     })
 
   return (
