@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import HistoryTable from "./HistoryTable";
 import Dropdown from "../../components/Dropdown";
-
 import * as api from "../../components/apiService";
-
 import { useGetCars } from "../../hooks/cars.hooks";
-
 import { useQuery } from "react-query";
 
 let car: any = null;
@@ -38,10 +35,10 @@ function Home() {
  
   return (
     <>
-      <div style={{ width: "90%", margin: "auto", marginTop: "50px" }}>
+      <div className="m-auto w-11/12 mt-12">
         {cars && cars.length > 0 ? (
           <>
-            <div style={{ marginBottom: "20px", textAlign: "right" }}>
+            <div className="mb-5 text-right">
               <Dropdown cars={cars} handleSelectedCar={findCarStats} /> 
             </div>
 

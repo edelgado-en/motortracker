@@ -23,8 +23,7 @@ const Cars = () => {
     >
       <div className="bg-white shadow overflow-hidden sm:rounded-md">
         <ul role="list" className="divide-y divide-gray-200">
-          {cars &&
-            cars.data.map((car: Car) => (
+          {cars && cars.map((car: Car) => (
               <li key={car.id}>
                 <a href="#" className="block hover:bg-gray-50">
                   <div className="px-4 py-4 flex items-center sm:px-6">
