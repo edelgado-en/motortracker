@@ -81,7 +81,8 @@ const RegisterCar: React.FC = () => {
                                  block w-full shadow-sm sm:text-sm
                                   border-gray-300 rounded-md ${errors.trackerSerialNumber && 'border-red-500'} `}
                     />
-                    { errors.trackerSerialNumber && <p className="text-red-500">{errors.trackerSerialNumber.message}</p> }
+                    { errors.trackerSerialNumber 
+                        && <p className="text-red-500">{errors.trackerSerialNumber.message}</p> }
                   </div>
                 </div>
               </div>

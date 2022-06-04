@@ -1,6 +1,8 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useNavigate } from "react-router-dom";
 
+import motorLogo from "../../motorLogo.svg";
+
 import {
   signInWithGooglePopup,
   auth,
@@ -37,10 +39,15 @@ export default function Login() {
     <>
       <div className="min-h-screen">
         <div className="flex flex-col justify-center items-center py-12 space-y-8 min-h-screen sm:px-6 lg:px-8 lg:space-y-12">
+          <img
+            src={motorLogo}
+            className="h-28 w-28 text-orange-400"
+            alt="app logo"
+          />
           <div className="w-full sm:mx-auto sm:max-w-md justify-center text-center text-3xl">
-            <span className="">MOTOR</span>
-            <span className="">TRACKER</span>
+            Welcome to the Engine Monitoring System
           </div>
+          <p>Monitor and track your engine's health.</p>
           <div
             className="space-y-4 w-full sm:mx-auto sm:max-w-md"
             aria-label="Sign in form"
@@ -49,9 +56,9 @@ export default function Login() {
               <div className="flex flex-col justify-center animate-fade-in">
                 <button
                   onClick={signInWithGoogle}
-                  className="inline-flex items-center border font-medium rounded relative text-base px-6 py-3 text-white border-pink-700 bg-pink-600 hover:bg-pink-700 hover:border-pink-800 shadow-sm justify-center border sm:py-10 sm:px-12 sm:text-2xl sm:font-semibold sm:rounded-lg"
+                  className="inline-flex items-center font-medium rounded relative text-base px-4 py-2 text-white border-pink-700 bg-pink-600 hover:bg-pink-700 hover:border-pink-800 shadow-sm justify-center border sm:py-5 sm:px-6 sm:text-2xl sm:font-semibold sm:rounded-lg"
                 >
-                  <span>Sign in with Google</span>
+                  <span>Continue with Google</span>
                 </button>
                 <div className="mt-6">
                   <p className="mt-6 text-xs text-gray-500 prose prose-sm">

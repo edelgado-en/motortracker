@@ -9,6 +9,7 @@ type Car = {
     trackerSerialNumber: string
 }
 
+
 const Cars = () => {
   const { data: cars } = useGetCars();
 
