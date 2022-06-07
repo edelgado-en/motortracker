@@ -15,3 +15,7 @@ export const findCarStats = (requestObject) => {
 export const signUser = (requestObject) => {
     return httpService.post('/user/signin', requestObject);
 }
+
+export const editCar = (requestObject) => {
+    return httpService.post('/car/edit', requestObject);
+}

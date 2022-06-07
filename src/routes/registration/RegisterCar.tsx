@@ -29,6 +29,7 @@ const RegisterCar: React.FC = () => {
           </div>
         </div>
         <div className="mt-5 md:mt-0 md:col-span-2">
+          
           <form onSubmit={onSubmit}>
             <div className="shadow overflow-hidden sm:rounded-md">
               <div className="px-4 py-5 bg-white sm:p-6">
