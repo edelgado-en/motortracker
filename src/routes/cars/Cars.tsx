@@ -8,7 +8,10 @@ import React from "react";
 
 import * as api from "../../components/apiService";
 
+import { toast } from "react-toastify";
+
 export type FormValues = {
+    id: number,
     name: string,
     plate: string,
     trackerSerialNumber: string
@@ -29,17 +32,19 @@ const Cars = () => {
   const { mutate, isLoading } = useMutation(api.editCar, {
     onSuccess: () => {
         queryClient.invalidateQueries('cars');
+
+        toast.success('Car updated successfully');
+
     },
     onError: (error) => {
-        console.log(error);
+        toast.error('Failed to update car');
     }
   })
 
   const { data: cars } = useGetCars();
   
   const onSubmit = handleSubmit((data: any) => {
-    console.log(data);
-    //mutate(data)
+    mutate(data);
   })
 
   const expandCar = (car: Car) => {
@@ -56,6 +61,7 @@ const Cars = () => {
     });
 
     reset({
+        id: car.id,
         name: car.name,
         plate: car.plate,
         trackerSerialNumber: car.trackerSerialNumber,
@@ -136,6 +142,7 @@ const Cars = () => {
                 {car.expanded &&
                     <li className="px-20 py-10">
                         <form onSubmit={onSubmit}>
+                        <input type="hidden" {...register('id')} />
                             <div className="shadow overflow-hidden sm:rounded-md">
                             <div className="px-4 py-5 bg-white sm:p-6">
                                 <div className="grid grid-cols-6 gap-6">
