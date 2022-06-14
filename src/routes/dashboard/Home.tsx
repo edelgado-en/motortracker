@@ -59,8 +59,11 @@ function Home() {
                         activePage={page}
                         itemsCountPerPage={5}
                         totalItemsCount={carStats.totalElements}
-                        pageRangeDisplayed={5}
+                        pageRangeDisplayed={4}
                         onChange={handlePageChange}
+                        innerClass="w-1/4 bg-white px-4 py-3 flex items-center border-t border-gray-200 sm:px-6 m-auto"
+                        activeClass="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                        itemClass="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
                     />
                 </div>
                 </>
