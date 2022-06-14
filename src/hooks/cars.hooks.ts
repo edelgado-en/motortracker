@@ -3,7 +3,6 @@ import * as api from "../components/apiService";
 import { FormValues } from "../routes/registration/RegisterCar";
 import { toast } from "react-toastify";
 import { UseFormReset } from "react-hook-form";
-import { TrueLiteral } from "typescript";
 
 export enum ServerStateKeyEnum {
     Cars = 'cars',

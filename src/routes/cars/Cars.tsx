@@ -142,68 +142,68 @@ const Cars = () => {
                 {car.expanded &&
                     <li className="px-20 py-10">
                         <form onSubmit={onSubmit}>
-                        <input type="hidden" {...register('id')} />
+                            <input type="hidden" {...register('id')} />
                             <div className="shadow overflow-hidden sm:rounded-md">
-                            <div className="px-4 py-5 bg-white sm:p-6">
-                                <div className="grid grid-cols-6 gap-6">
-                                    <div className="col-span-6 sm:col-span-3">
-                                        <label
-                                        htmlFor="name"
-                                        className="block text-sm font-medium text-gray-700"
-                                        >
-                                        Car name/model
-                                        </label>
-                                        <input
-                                        type="text"
-                                        {...register('name', { required: 'Car name is required' })}
-                                        className={`mt-1 focus:ring-indigo-500 focus:border-indigo-500
-                                                    block w-full shadow-sm sm:text-sm
-                                                    border-gray-300 rounded-md ${errors.name && 'border-red-500'}`}
-                                        />
-                                        { errors.name && <p className="text-red-500">{errors.name.message}</p> }
-                                    </div>
+                                <div className="px-4 py-5 bg-white sm:p-6">
+                                    <div className="grid grid-cols-6 gap-6">
+                                        <div className="col-span-6 sm:col-span-3">
+                                            <label
+                                            htmlFor="name"
+                                            className="block text-sm font-medium text-gray-700"
+                                            >
+                                            Car name/model
+                                            </label>
+                                            <input
+                                            type="text"
+                                            {...register('name', { required: 'Car name is required' })}
+                                            className={`mt-1 focus:ring-indigo-500 focus:border-indigo-500
+                                                        block w-full shadow-sm sm:text-sm
+                                                        border-gray-300 rounded-md ${errors.name && 'border-red-500'}`}
+                                            />
+                                            { errors.name && <p className="text-red-500">{errors.name.message}</p> }
+                                        </div>
 
-                                    <div className="col-span-6 sm:col-span-3">
-                                        <label
-                                        htmlFor="last-name"
-                                        className="block text-sm font-medium text-gray-700"
-                                        >
-                                        Plate
-                                        </label>
-                                        <input
-                                        type="text"
-                                        {...register('plate', { required: "Car plate is required" })}
-                                        className={`mt-1 focus:ring-indigo-500 focus:border-indigo-500
-                                                    block w-full shadow-sm sm:text-sm
-                                                    border-gray-300 rounded-md ${errors.plate && 'border-red-500'} `}
-                                        />
-                                        { errors.plate && <p className="text-red-500">{errors.plate.message}</p> }
-                                    </div>
+                                        <div className="col-span-6 sm:col-span-3">
+                                            <label
+                                            htmlFor="last-name"
+                                            className="block text-sm font-medium text-gray-700"
+                                            >
+                                            Plate
+                                            </label>
+                                            <input
+                                            type="text"
+                                            {...register('plate', { required: "Car plate is required" })}
+                                            className={`mt-1 focus:ring-indigo-500 focus:border-indigo-500
+                                                        block w-full shadow-sm sm:text-sm
+                                                        border-gray-300 rounded-md ${errors.plate && 'border-red-500'} `}
+                                            />
+                                            { errors.plate && <p className="text-red-500">{errors.plate.message}</p> }
+                                        </div>
 
-                                    <div className="col-span-6 sm:col-span-4">
-                                        <label
-                                        htmlFor="email-address"
-                                        className="block text-sm font-medium text-gray-700"
-                                        >
-                                        Motor Tracker Serial Number
-                                        </label>
-                                        <input
-                                        type="text"
-                                        {...register('trackerSerialNumber', { required: "Tracker number is required" })}
-                                        className={`mt-1 focus:ring-indigo-500 focus:border-indigo-500
-                                                    block w-full shadow-sm sm:text-sm
-                                                    border-gray-300 rounded-md ${errors.trackerSerialNumber && 'border-red-500'} `}
-                                        />
-                                        { errors.trackerSerialNumber 
-                                            && <p className="text-red-500">{errors.trackerSerialNumber.message}</p> }
-                                    </div>
+                                        <div className="col-span-6 sm:col-span-4">
+                                            <label
+                                            htmlFor="email-address"
+                                            className="block text-sm font-medium text-gray-700"
+                                            >
+                                            Motor Tracker Serial Number
+                                            </label>
+                                            <input
+                                            type="text"
+                                            {...register('trackerSerialNumber', { required: "Tracker number is required" })}
+                                            className={`mt-1 focus:ring-indigo-500 focus:border-indigo-500
+                                                        block w-full shadow-sm sm:text-sm
+                                                        border-gray-300 rounded-md ${errors.trackerSerialNumber && 'border-red-500'} `}
+                                            />
+                                            { errors.trackerSerialNumber 
+                                                && <p className="text-red-500">{errors.trackerSerialNumber.message}</p> }
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
                                     <button
-                                    type="submit"
-                                    disabled={isLoading}
-                                    className="inline-flex justify-center py-2 px-4 border
+                                        type="submit"
+                                        disabled={isLoading}
+                                        className="inline-flex justify-center py-2 px-4 border
                                                 border-transparent shadow-sm text-sm font-medium rounded-md
                                                 text-white bg-indigo-600 hover:bg-indigo-700
                                                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
