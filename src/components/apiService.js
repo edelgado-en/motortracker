@@ -10,7 +10,7 @@ export const findCars = () => {
 
 export const findCarStats = (requestObject, pageNumber) => {
     const page = pageNumber > 0 ? pageNumber - 1 : 0;
-    return httpService.post(`/car/stats/search?size=5&page=${page}&sort=timeStamp,desc`, requestObject);
+    return httpService.post(`/car/stats/search?size=10&page=${page}&sort=timeStamp,desc`, requestObject);
 }
 
 export const signUser = (requestObject) => {

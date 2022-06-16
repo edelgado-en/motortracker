@@ -2,28 +2,28 @@ import React, { useState, useEffect } from "react";
 import HistoryTable from "./HistoryTable";
 import Dropdown from "../../components/Dropdown";
 import * as api from "../../components/apiService";
-import { useGetCars } from "../../hooks/cars.hooks";
+import { useGetCars, ServerStateKeyEnum } from "../../hooks/cars.hooks";
 import { useQuery } from "react-query";
 
 import Pagination from "react-js-pagination";
 
 let car: any = null;
 
+const ITEMS_PER_PAGE = 10;
+
 function Home() {
   const { data: cars, isLoading } = useGetCars();
   const [page, setPage] = useState(0);
   
-  //TODO: this is temporary because useGetCars will return an object with the totalCars and the array of cars
-  // const enabledStatsCall = data?.cars  //and the in enabled: !!enabledStatsCall
   if (cars) {
     car = cars[0]
   }
 
   const { data: carStats, refetch } = useQuery(
-    ["carStats", car, page],
+    [ServerStateKeyEnum.CarStats, car, page],
     async () => {
       const { data } = await api.findCarStats(car, page);
-      console.log(data);
+      
       return data;
     },
     {
@@ -38,7 +38,6 @@ function Home() {
   }
 
   const handlePageChange = (pageNumber: number) => {
-    console.log(pageNumber);
     setPage(pageNumber);
   }
  
@@ -53,19 +52,20 @@ function Home() {
 
             {carStats && 
                 <>
-                <HistoryTable carStats={carStats.content} />
-                <div>
-                    <Pagination
-                        activePage={page}
-                        itemsCountPerPage={5}
-                        totalItemsCount={carStats.totalElements}
-                        pageRangeDisplayed={4}
-                        onChange={handlePageChange}
-                        innerClass="w-1/4 bg-white px-4 py-3 flex items-center border-t border-gray-200 sm:px-6 m-auto"
-                        activeClass="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                        itemClass="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                    />
-                </div>
+                    <HistoryTable carStats={carStats.content} />
+                    
+                    {carStats.totalElements > ITEMS_PER_PAGE && 
+                        <Pagination
+                            activePage={page}
+                            itemsCountPerPage={ITEMS_PER_PAGE}
+                            totalItemsCount={carStats.totalElements}
+                            pageRangeDisplayed={4}
+                            onChange={handlePageChange}
+                            innerClass="w-1/4 bg-white px-4 py-3 flex items-center border-t border-gray-200 sm:px-6 m-auto"
+                            activeClass="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                            itemClass="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                        />
+                    }
                 </>
             } 
 
