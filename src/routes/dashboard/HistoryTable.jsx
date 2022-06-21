@@ -10,12 +10,12 @@ export default function HistoryTable({ carStats }) {
                   <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Date
                       {/* TODO: give an option to show relative times instead */}
                     </th>
-                    <th
+                    {/*  <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
@@ -25,45 +25,45 @@ export default function HistoryTable({ carStats }) {
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Oil Temp
+                      Oil
+                    </th> */}
+                    <th
+                      scope="col"
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      AirFuel
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Air Temp
+                      Boost
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Boost Pressure
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Oil Pressure
+                      Oil
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {carStats.map((stat) => (
                     <tr key={stat.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                         {stat.timeStamp}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {stat.coolant}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {stat.oilTemp}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      </td> */}
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                         {stat.airTemp}
                       </td>
                       <td
-                        className={`px-6 py-4 whitespace-nowrap text-sm text-gray-500 ${
+                        className={`px-4 py-4 whitespace-nowrap text-sm text-gray-500 ${
                           stat.boostPressureThreshold.danger
                             ? "bg-red-200"
                             : stat.boostPressureThreshold.warning
@@ -73,7 +73,7 @@ export default function HistoryTable({ carStats }) {
                       >
                         {stat.boostPressure}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                         {stat.oilPressure}
                       </td>
                     </tr>

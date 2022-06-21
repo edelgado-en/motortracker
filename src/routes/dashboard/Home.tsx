@@ -7,24 +7,27 @@ import { useQuery } from "react-query";
 
 import Pagination from "react-js-pagination";
 
-let car: any = null;
+//let car: any = null;
 
 const ITEMS_PER_PAGE = 20;
 
 function Home() {
   const { data: cars, isLoading } = useGetCars();
   const [page, setPage] = useState(0);
-  
-  if (cars) {
-    car = cars[0]
-  }
+  const [car, setCar] = useState(null);
 
-  const { data: carStats, refetch } = useQuery(
+    useEffect(() => {
+        //by default search for the first car
+        setCar(cars[0]);
+    }, []);
+
+  const { data: carStats } = useQuery(
     [ServerStateKeyEnum.CarStats, car, page],
     async () => {
-      const { data } = await api.findCarStats(car, page, ITEMS_PER_PAGE);
-      
-      return data;
+        if (car) {
+            const { data } = await api.findCarStats(car, page, ITEMS_PER_PAGE);
+            return data;
+        }
     },
     {
       enabled: !isLoading,
@@ -32,9 +35,7 @@ function Home() {
   );
 
   const findCarStats = (selectedCar: any) => {
-    car = selectedCar;
-
-    refetch();
+    setCar(selectedCar);
   }
 
   const handlePageChange = (pageNumber: number) => {
@@ -50,8 +51,28 @@ function Home() {
               <Dropdown cars={cars} handleSelectedCar={findCarStats} /> 
             </div>
 
-            {carStats && 
+            {(carStats && carStats.content.length > 0) && 
                 <>
+                    <div className="flex max-w-screen-md m-auto justify-center mb-5">
+                        <button
+                            type="button"
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            Temp
+                        </button>
+                        <button
+                            type="button"
+                            className="ml-5 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            Pressure
+                        </button>
+                        <button
+                            type="button"
+                            className="ml-5 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            AirFuel
+                        </button>
+                    </div>
                     <HistoryTable carStats={carStats.content} />
                     
                     {carStats.totalElements > ITEMS_PER_PAGE && 
