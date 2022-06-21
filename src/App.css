@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.drop_area {
+    min-width: 150px;
+    width: 150px;
+    color: red;
+    box-sizing: border-box;
+}

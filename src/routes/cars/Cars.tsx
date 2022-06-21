@@ -4,11 +4,13 @@ import { useForm } from "react-hook-form";
 import { useGetCars } from "../../hooks/cars.hooks";
 
 import { useMutation, useQueryClient } from 'react-query';
-import React from "react";
+import React, { useState } from "react";
 
 import * as api from "../../components/apiService";
 
 import { toast } from "react-toastify";
+
+import { FileUploader } from "react-drag-drop-files";
 
 export type FormValues = {
     id: number,
@@ -21,14 +23,29 @@ type Car = {
     id: number,
     name: string,
     plate: string,
+    imageUrl: string,
     trackerSerialNumber: string,
     expanded: boolean
 }
+
+const fileTypes = ["JPG", "PNG"];
 
 const Cars = () => {
   const queryClient = useQueryClient();
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>();
   
+  const { mutate: mutateUpload, isLoading: uploadLoading } = useMutation(api.uploadCarImage, {
+    onSuccess: () => {
+        queryClient.invalidateQueries('cars');
+
+        toast.success('Image uploaded');
+
+    },
+    onError: (error) => {
+        toast.error('Unable to upload image');
+    }    
+  });
+
   const { mutate, isLoading } = useMutation(api.editCar, {
     onSuccess: () => {
         queryClient.invalidateQueries('cars');
@@ -42,7 +59,18 @@ const Cars = () => {
   })
 
   const { data: cars } = useGetCars();
-  
+
+  console.log(cars);
+    
+  const handleFileChange = (file: any, carId: number) => {
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("carId", carId.toString());
+
+    mutateUpload(formData);
+  }
+
   const onSubmit = handleSubmit((data: any) => {
     mutate(data);
   })
@@ -86,7 +114,7 @@ const Cars = () => {
   return (
     <div
       style={{
-        maxWidth: "50%",
+        maxWidth: "40%",
         minWidth: "400px",
         margin: "auto",
         marginTop: "100px",
@@ -98,43 +126,56 @@ const Cars = () => {
               <React.Fragment key={car.id}>
                 <li>
                     <a href="#" className="block hover:bg-gray-50">
-                    <div className="px-4 py-4 flex items-center sm:px-6">
-                        <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
-                        <div className="truncate">
-                            <div className="flex text-sm">
-                            <p className="font-medium text-indigo-600 truncate">
-                                {car.name}
-                            </p>
-                            <p className="ml-1 flex-shrink-0 font-normal text-gray-500">
-                                {car.plate}
-                            </p>
+                    <div className="px-4 py-4 flex flex-row items-center sm:px-6 h-24">
+                        <div className="basis-[25%] sm:items-center">
+                            
+                            {car.imageUrl ?
+                                <img src={car.imageUrl} alt="..." className="h-20" />
+                                :
+                                <div className="px-7">
+                                    <FileUploader handleChange={(file: any) => handleFileChange(file, car.id)}
+                                              name="file"
+                                              label="Upload picture"
+                                              types={fileTypes} />
+                                </div>
+                            }
+
+                        </div>
+                        <div className="basis-[70%] sm:items-center">
+                            <div className="truncate">
+                                <div className="flex text-sm">
+                                    <p className="font-medium text-indigo-600 truncate">
+                                        {car.name}
+                                    </p>
+                                    <p className="ml-1 flex-shrink-0 font-normal text-gray-500">
+                                        {car.plate}
+                                    </p>
+                                </div>
+                                <div className="mt-2 flex">
+                                    <div className="flex items-center text-sm text-gray-500">
+                                        <ServerIcon
+                                        className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                                        aria-hidden="true"
+                                        />
+                                        <p>{car.trackerSerialNumber}</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="mt-2 flex">
-                            <div className="flex items-center text-sm text-gray-500">
-                                <ServerIcon
-                                className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                                aria-hidden="true"
+                        </div>
+                        <div className="ml-5 basis-[5%]">
+                            {car.expanded ? (
+                                <ChevronUpIcon
+                                    onClick={() => closeCar()}
+                                    className="h-5 w-5 text-gray-400"
+                                    aria-hidden="true"
                                 />
-                                <p>{car.trackerSerialNumber}</p>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                        <div className="ml-5 flex-shrink-0">
-                        
-                        {car.expanded ? (
-                            <ChevronUpIcon
-                                onClick={() => closeCar()}
-                                className="h-5 w-5 text-gray-400"
-                                aria-hidden="true"
-                            />
-                        ) : (
-                            <ChevronDownIcon
-                                onClick={() => expandCar(car)}
-                                className="h-5 w-5 text-gray-400"
-                                aria-hidden="true"
-                            />
-                        )}
+                            ) : (
+                                <ChevronDownIcon
+                                    onClick={() => expandCar(car)}
+                                    className="h-5 w-5 text-gray-400"
+                                    aria-hidden="true"
+                                />
+                            )}
                         </div>
                     </div>
                     </a>

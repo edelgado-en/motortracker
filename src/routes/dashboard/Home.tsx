@@ -9,7 +9,7 @@ import Pagination from "react-js-pagination";
 
 let car: any = null;
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 20;
 
 function Home() {
   const { data: cars, isLoading } = useGetCars();
@@ -22,7 +22,7 @@ function Home() {
   const { data: carStats, refetch } = useQuery(
     [ServerStateKeyEnum.CarStats, car, page],
     async () => {
-      const { data } = await api.findCarStats(car, page);
+      const { data } = await api.findCarStats(car, page, ITEMS_PER_PAGE);
       
       return data;
     },
@@ -61,7 +61,7 @@ function Home() {
                             totalItemsCount={carStats.totalElements}
                             pageRangeDisplayed={4}
                             onChange={handlePageChange}
-                            innerClass="w-1/4 bg-white px-4 py-3 flex items-center border-t border-gray-200 sm:px-6 m-auto"
+                            innerClass="bg-white px-4 py-3 flex border-t border-gray-200 sm:px-6 m-auto max-w-screen-md"
                             activeClass="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
                             itemClass="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
                         />
