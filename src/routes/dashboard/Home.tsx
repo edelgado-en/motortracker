@@ -7,8 +7,6 @@ import { useQuery } from "react-query";
 
 import Pagination from "react-js-pagination";
 
-//let car: any = null;
-
 const ITEMS_PER_PAGE = 20;
 
 function Home() {
@@ -17,9 +15,10 @@ function Home() {
   const [car, setCar] = useState(null);
 
     useEffect(() => {
-        //by default search for the first car
-        setCar(cars[0]);
-    }, []);
+        if (cars) {
+            setCar(cars[0]);
+        }
+    }, [cars]);
 
   const { data: carStats } = useQuery(
     [ServerStateKeyEnum.CarStats, car, page],
