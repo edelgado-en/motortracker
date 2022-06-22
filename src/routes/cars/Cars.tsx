@@ -135,6 +135,7 @@ const Cars = () => {
                                 <div className="px-7">
                                     <FileUploader handleChange={(file: any) => handleFileChange(file, car.id)}
                                               name="file"
+                                              className="bg-red-300"
                                               label="Upload picture"
                                               types={fileTypes} />
                                 </div>

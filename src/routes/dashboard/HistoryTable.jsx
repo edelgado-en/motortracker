@@ -1,4 +1,9 @@
-export default function HistoryTable({ carStats }) {
+export default function HistoryTable({
+  carStats,
+  tempSelected,
+  pressureSelected,
+  airFuelSelected,
+}) {
   return (
     <div className="flex flex-col max-w-screen-md m-auto">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -13,38 +18,51 @@ export default function HistoryTable({ carStats }) {
                       className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Date
-                      {/* TODO: give an option to show relative times instead */}
                     </th>
-                    {/*  <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Coolant
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Oil
-                    </th> */}
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      AirFuel
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Boost
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Oil
-                    </th>
+                    {tempSelected && (
+                      <>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Coolant
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Oil
+                        </th>
+                      </>
+                    )}
+
+                    {pressureSelected && (
+                      <>
+                        <th
+                          scope="col"
+                          className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Boost
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Oil
+                        </th>
+                      </>
+                    )}
+
+                    {airFuelSelected && (
+                      <>
+                        <th
+                          scope="col"
+                          className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          AirFuel
+                        </th>
+                      </>
+                    )}
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -53,29 +71,43 @@ export default function HistoryTable({ carStats }) {
                       <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                         {stat.timeStamp}
                       </td>
-                      {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {stat.coolant}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {stat.oilTemp}
-                      </td> */}
-                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {stat.airTemp}
-                      </td>
-                      <td
-                        className={`px-4 py-4 whitespace-nowrap text-sm text-gray-500 ${
-                          stat.boostPressureThreshold.danger
-                            ? "bg-red-200"
-                            : stat.boostPressureThreshold.warning
-                            ? "bg-yellow-200"
-                            : ""
-                        }`}
-                      >
-                        {stat.boostPressure}
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {stat.oilPressure}
-                      </td>
+                      {tempSelected && (
+                        <>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {stat.coolant}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {stat.oilTemp}
+                          </td>
+                        </>
+                      )}
+
+                      {pressureSelected && (
+                        <>
+                          <td
+                            className={`px-4 py-4 whitespace-nowrap text-sm text-gray-500 ${
+                              stat.boostPressureThreshold.danger
+                                ? "bg-red-200"
+                                : stat.boostPressureThreshold.warning
+                                ? "bg-yellow-200"
+                                : ""
+                            }`}
+                          >
+                            {stat.boostPressure}
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {stat.oilPressure}
+                          </td>
+                        </>
+                      )}
+
+                      {airFuelSelected && (
+                        <>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {stat.airFuel}
+                          </td>
+                        </>
+                      )}
                     </tr>
                   ))}
                 </tbody>

@@ -9,10 +9,14 @@ import Pagination from "react-js-pagination";
 
 const ITEMS_PER_PAGE = 20;
 
-function Home() {
+const Home = () => {
   const { data: cars, isLoading } = useGetCars();
   const [page, setPage] = useState(0);
   const [car, setCar] = useState(null);
+
+  const [tempSelected, setTempSelected ] = useState(true);
+  const [pressureSelected, setPressureSelected ] = useState(false);
+  const [airFuelSelected, setAirFuelSelected ] = useState(false);
 
     useEffect(() => {
         if (cars) {
@@ -40,6 +44,20 @@ function Home() {
   const handlePageChange = (pageNumber: number) => {
     setPage(pageNumber);
   }
+
+  const handleStatsButton = (stat: string) => {
+    setTempSelected(false);
+    setPressureSelected(false);
+    setAirFuelSelected(false);
+    
+    if (stat === 'temp') {
+        setTempSelected(true);
+    } else if (stat === 'pressure') {
+        setPressureSelected(true);
+    } else if (stat === 'airFuel') {
+        setAirFuelSelected(true);
+    }
+  }
  
   return (
     <>
@@ -50,29 +68,52 @@ function Home() {
               <Dropdown cars={cars} handleSelectedCar={findCarStats} /> 
             </div>
 
-            {(carStats && carStats.content.length > 0) && 
+            {(carStats && carStats.content.length > 0) ? (
                 <>
-                    <div className="flex max-w-screen-md m-auto justify-center mb-5">
+                    <div className="flex max-w-screen-md m-auto justify-center mb-7 mt-7">
                         <button
+                            onClick={() => handleStatsButton('temp')}
                             type="button"
-                            className="inline-flex items-center px-4 py-2 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className={`inline-flex items-center px-6 py-3 border
+                                        text-sm font-medium
+                                        rounded-full shadow-sm
+                                        ${tempSelected ? 'text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 border-transparent' 
+                                                       : 'text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'}
+                                        `}
                         >
                             Temp
                         </button>
                         <button
+                            onClick={() => handleStatsButton('pressure')}
                             type="button"
-                            className="ml-5 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className={`ml-5 text-sm font-medium inline-flex items-center px-6 py-3 border
+                                        rounded-full shadow-sm
+                                        ${pressureSelected ? 'text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 border-transparent' 
+                                                       : 'text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'}
+                                        `}
                         >
                             Pressure
                         </button>
                         <button
+                            onClick={() => handleStatsButton('airFuel')}
                             type="button"
-                            className="ml-5 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className={`ml-5 inline-flex items-center px-6 py-3 border
+                                        text-sm font-medium
+                                        rounded-full shadow-sm
+                                        ${airFuelSelected ? 'text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 border-transparent' 
+                                                       : 'text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'}
+                                        `}
                         >
                             AirFuel
                         </button>
                     </div>
-                    <HistoryTable carStats={carStats.content} />
+                    
+                    <HistoryTable 
+                        carStats={carStats.content}
+                        tempSelected={tempSelected}
+                        pressureSelected={pressureSelected}
+                        airFuelSelected={airFuelSelected}
+                     />
                     
                     {carStats.totalElements > ITEMS_PER_PAGE && 
                         <Pagination
@@ -87,7 +128,12 @@ function Home() {
                         />
                     }
                 </>
-            } 
+            ) : (
+                <div className="text-center mt-24">
+                    <h1>No statistics collected for this car.</h1>
+                    <h1>Make sure your tracker is properly connected.</h1>
+                </div>   
+            )} 
 
           </React.Fragment>
         ) : !isLoading ? (
