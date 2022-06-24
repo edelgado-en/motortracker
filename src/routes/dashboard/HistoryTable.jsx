@@ -73,7 +73,15 @@ export default function HistoryTable({
                       </td>
                       {tempSelected && (
                         <>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td
+                            className={`px-4 py-4 whitespace-nowrap text-sm text-gray-500 ${
+                              stat.coolantThreshold.danger
+                                ? "bg-red-100"
+                                : stat.coolantThreshold.warning
+                                ? "bg-yellow-100"
+                                : ""
+                            }`}
+                          >
                             {stat.coolant}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

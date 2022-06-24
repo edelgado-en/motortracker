@@ -10,7 +10,9 @@ import * as api from "../../components/apiService";
 
 import { toast } from "react-toastify";
 
-import { FileUploader } from "react-drag-drop-files";
+//import { FileUploader } from "react-drag-drop-files";
+
+import ImageUpload from '../../components/imageUpload';
 
 export type FormValues = {
     id: number,
@@ -59,16 +61,19 @@ const Cars = () => {
   })
 
   const { data: cars } = useGetCars();
-
-  console.log(cars);
     
   const handleFileChange = (file: any, carId: number) => {
-
+    console.log('file', file.file);
+    console.log('carId', carId);
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", file.file);
     formData.append("carId", carId.toString());
 
     mutateUpload(formData);
+  }
+
+  const handleRemoveImage = (file: any) => {
+    console.log(file);
   }
 
   const onSubmit = handleSubmit((data: any) => {
@@ -114,7 +119,7 @@ const Cars = () => {
   return (
     <div
       style={{
-        maxWidth: "40%",
+        maxWidth: "600px",
         minWidth: "400px",
         margin: "auto",
         marginTop: "100px",
@@ -124,34 +129,35 @@ const Cars = () => {
         <ul role="list" className="divide-y divide-gray-200">
           {cars && cars.map((car: Car) => (
               <React.Fragment key={car.id}>
-                <li>
+                <li className="p-2">
                     <a href="#" className="block hover:bg-gray-50">
                     <div className="px-4 py-4 flex flex-row items-center sm:px-6 h-24">
-                        <div className="basis-[25%] sm:items-center">
+                        {/* <div className="basis-[25%] sm:items-center">
                             
                             {car.imageUrl ?
-                                <img src={car.imageUrl} alt="..." className="h-20" />
+                                <div className="pr-7">
+                                    <img src={car.imageUrl} alt="..." className="h-20" style={{ minHeight: '100px', minWidth: '100px', overflow: 'hidden', position: 'relative' }} />
+                                </div>
                                 :
-                                <div className="px-7">
-                                    <FileUploader handleChange={(file: any) => handleFileChange(file, car.id)}
-                                              name="file"
-                                              className="bg-red-300"
-                                              label="Upload picture"
-                                              types={fileTypes} />
+                                <div className="pr-7">
+                                    <ImageUpload 
+                                      carId={car.id}
+                                      handleUploadImage={handleFileChange}
+                                      handleRemoveImage={handleRemoveImage}/>
                                 </div>
                             }
 
-                        </div>
-                        <div className="basis-[70%] sm:items-center">
+                        </div> */}
+                        <div className="basis-[90%] sm:items-center">
                             <div className="truncate">
                                 <div className="flex text-sm">
                                     <p className="font-medium text-indigo-600 truncate">
                                         {car.name}
                                     </p>
-                                    <p className="ml-1 flex-shrink-0 font-normal text-gray-500">
-                                        {car.plate}
-                                    </p>
                                 </div>
+                                <p className="ml-1 flex-shrink-0 font-normal text-gray-500">
+                                    {car.plate}
+                                </p>
                                 <div className="mt-2 flex">
                                     <div className="flex items-center text-sm text-gray-500">
                                         <ServerIcon
