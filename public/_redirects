@@ -1,3 +1,5 @@
 /car/* http://api-motortracker.us-east-1.elasticbeanstalk.com/car/:splat 200
 
 /car http://api-motortracker.us-east-1.elasticbeanstalk.com/car 200
+
+/user/* http://api-motortracker.us-east-1.elasticbeanstalk.com/user/:splat 200
