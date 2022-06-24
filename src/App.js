@@ -66,7 +66,7 @@ const App = () => {
                     <Route path="/" element={<Nav />}>
                         <Route element={<ProtectedRoute />}>
                             <Route index element={<Home />} />
-                            <Route path="/cars" element={<Cars />} />
+                            <Route path="/mycars" element={<Cars />} />
                             <Route path="/registercar" element={<RegisterCar />} />
                         </Route>
                     </Route>

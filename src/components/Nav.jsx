@@ -11,7 +11,7 @@ import { Outlet } from "react-router-dom";
 
 let navigation = [
   { name: "Dashboard", href: "/", current: true },
-  { name: "Cars", href: "/cars", current: false },
+  { name: "Cars", href: "/mycars", current: false },
   { name: "Register Car", href: "/registercar", current: false },
 ];
 
