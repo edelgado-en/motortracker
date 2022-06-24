@@ -8,7 +8,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 
 } else {
     console.log('prod');
-    baseUrl = 'http://api-motortracker-dev.us-east-1.elasticbeanstalk.com';
+    baseUrl = 'http://api-motortracker.us-east-1.elasticbeanstalk.com';
 }
 
 axios.defaults.baseURL = baseUrl;

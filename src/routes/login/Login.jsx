@@ -26,8 +26,6 @@ export default function Login() {
     try {
       const { response } = await api.signUser(requestObject);
 
-      console.log(response);
-
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -52,7 +50,7 @@ export default function Login() {
             className="space-y-4 w-full sm:mx-auto sm:max-w-md"
             aria-label="Sign in form"
           >
-            <div className="py-8 px-4 bg-gray-100 border-t border-b border-gray-100 shadow sm:px-10 sm:rounded-lg sm:border-r sm:border-l">
+            <div className="py-8 px-8 bg-gray-100 border-t border-b border-gray-100 shadow sm:px-10 sm:rounded-lg sm:border-r sm:border-l">
               <div className="flex flex-col justify-center animate-fade-in">
                 <button
                   onClick={signInWithGoogle}
@@ -60,12 +58,13 @@ export default function Login() {
                 >
                   <span>Continue with Google</span>
                 </button>
-                <div className="mt-6">
-                  <p className="mt-6 text-xs text-gray-500 prose prose-sm">
+                <div className="mt-1">
+                  <p className="mt-6 text-xs text-gray-500 prose prose-sm text-center">
                     By signing in, you agree to our{" "}
                     <a href="/" className="text-blue-500 mr-1">
                       Terms of Service
                     </a>
+                    <br></br>
                     and
                     <a href="/" className="text-blue-500 ml-1">
                       Privacy Policy

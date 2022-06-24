@@ -84,7 +84,15 @@ export default function HistoryTable({
                           >
                             {stat.coolant}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td
+                            className={`px-4 py-4 whitespace-nowrap text-sm text-gray-500 ${
+                              stat.oilTempThreshold.danger
+                                ? "bg-red-200"
+                                : stat.oilTempThreshold.warning
+                                ? "bg-yellow-200"
+                                : ""
+                            }`}
+                          >
                             {stat.oilTemp}
                           </td>
                         </>
@@ -103,7 +111,15 @@ export default function HistoryTable({
                           >
                             {stat.boostPressure}
                           </td>
-                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td
+                            className={`px-4 py-4 whitespace-nowrap text-sm text-gray-500 ${
+                              stat.oilPressureThreshold.danger
+                                ? "bg-red-200"
+                                : stat.oilPressureThreshold.warning
+                                ? "bg-yellow-200"
+                                : ""
+                            }`}
+                          >
                             {stat.oilPressure}
                           </td>
                         </>
@@ -111,8 +127,16 @@ export default function HistoryTable({
 
                       {airFuelSelected && (
                         <>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {stat.airFuel}
+                          <td
+                            className={`px-4 py-4 whitespace-nowrap text-sm text-gray-500 ${
+                              stat.airFuelRatioThreshold.danger
+                                ? "bg-red-200"
+                                : stat.airFuelRatioThreshold.warning
+                                ? "bg-yellow-200"
+                                : ""
+                            }`}
+                          >
+                            {stat.airFuelRatio}
                           </td>
                         </>
                       )}

@@ -63,8 +63,6 @@ const Cars = () => {
   const { data: cars } = useGetCars();
     
   const handleFileChange = (file: any, carId: number) => {
-    console.log('file', file.file);
-    console.log('carId', carId);
     const formData = new FormData();
     formData.append("file", file.file);
     formData.append("carId", carId.toString());
