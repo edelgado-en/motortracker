@@ -17,6 +17,7 @@ const Home = () => {
   const [tempSelected, setTempSelected ] = useState(true);
   const [pressureSelected, setPressureSelected ] = useState(false);
   const [airFuelSelected, setAirFuelSelected ] = useState(false);
+  const [voltageSelected, setVoltageSelected ] = useState(false);
 
     useEffect(() => {
         if (cars) {
@@ -29,6 +30,7 @@ const Home = () => {
     async () => {
         if (car) {
             const { data } = await api.findCarStats(car, page, ITEMS_PER_PAGE);
+
             return data;
         }
     },
@@ -49,13 +51,16 @@ const Home = () => {
     setTempSelected(false);
     setPressureSelected(false);
     setAirFuelSelected(false);
-    
+    setVoltageSelected(false);
+
     if (stat === 'temp') {
         setTempSelected(true);
     } else if (stat === 'pressure') {
         setPressureSelected(true);
     } else if (stat === 'airFuel') {
         setAirFuelSelected(true);
+    } else if (stat === 'voltage') {
+        setVoltageSelected(true);
     }
   }
  
@@ -106,6 +111,18 @@ const Home = () => {
                         >
                             AirFuel
                         </button>
+                        <button
+                            onClick={() => handleStatsButton('voltage')}
+                            type="button"
+                            className={`ml-5 inline-flex items-center px-6 py-3 border
+                                        text-sm font-medium
+                                        rounded-full shadow-sm
+                                        ${voltageSelected ? 'text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 border-transparent' 
+                                                       : 'text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'}
+                                        `}
+                        >
+                            Voltage
+                        </button>
                     </div>
                     
                     <HistoryTable 
@@ -113,6 +130,7 @@ const Home = () => {
                         tempSelected={tempSelected}
                         pressureSelected={pressureSelected}
                         airFuelSelected={airFuelSelected}
+                        voltageSelected={voltageSelected}
                      />
                     
                     {carStats.totalElements > ITEMS_PER_PAGE && 

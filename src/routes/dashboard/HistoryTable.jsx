@@ -1,8 +1,12 @@
+import ReactTimeAgo from "react-time-ago";
+import { useEffect } from "react";
+
 export default function HistoryTable({
   carStats,
   tempSelected,
   pressureSelected,
   airFuelSelected,
+  voltageSelected,
 }) {
   return (
     <div className="flex flex-col max-w-screen-md m-auto">
@@ -63,6 +67,22 @@ export default function HistoryTable({
                         </th>
                       </>
                     )}
+                    {voltageSelected && (
+                      <>
+                        <th
+                          scope="col"
+                          className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Voltage
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Gyro
+                        </th>
+                      </>
+                    )}
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -70,6 +90,11 @@ export default function HistoryTable({
                     <tr key={stat.id}>
                       <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                         {stat.timeStamp}
+                        {/* <ReactTimeAgo
+                          date={stat.timeStamp}
+                          locale="en-US"
+                          timeStyle="twitter"
+                        /> */}
                       </td>
                       {tempSelected && (
                         <>
@@ -137,6 +162,32 @@ export default function HistoryTable({
                             }`}
                           >
                             {stat.airFuelRatio}
+                          </td>
+                        </>
+                      )}
+                      {voltageSelected && (
+                        <>
+                          <td
+                            className={`px-4 py-4 whitespace-nowrap text-sm text-gray-500 ${
+                              stat.voltageThreshold.danger
+                                ? "bg-red-200"
+                                : stat.voltageThreshold.warning
+                                ? "bg-yellow-200"
+                                : ""
+                            }`}
+                          >
+                            {stat.voltage}
+                          </td>
+                          <td
+                            className={`px-4 py-4 whitespace-nowrap text-sm text-gray-500 ${
+                              stat.gyroThreshold.danger
+                                ? "bg-red-200"
+                                : stat.gyroThreshold.warning
+                                ? "bg-yellow-200"
+                                : ""
+                            }`}
+                          >
+                            {stat.gyro}
                           </td>
                         </>
                       )}
